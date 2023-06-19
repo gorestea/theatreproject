@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+   <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style228.css">
+</head>
+<body>
+{% block menu %}
+         <header>
+            <nav>
+               <ul>
+                   {% if request.user.is_superuser %}
+                <li><a href="{% url 'add_page' %}" class="nav-link">Добавить мероприятие</a></li>
+                {% endif %}
+                <li><a href="{% url 'repertuar' %}" class="nav-link">Репертуар</a></li>
+                <li><a href="{% url 'afisha' %}" class="nav-link">Афиша</a></li>
+                <li><a href="{% url 'index' %}" class="nav-link">Главная</a></li>
+               </ul>
+        </nav>
+    </header>
+{% endblock %}
+{% block content %}
+{% endblock %}
+</body>
+</html>

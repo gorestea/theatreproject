@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for c in category %}
+    <p><a href="{% url 'pcategory' c.slug %}">{{c}}</a></p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for performance in pcategory %}
+	<div class="article-panel">
+		<p class="first">Категория: {{performance.category}}</p>
+		<p class="last">Дата: {{performance.date|date:'d-m-Y'}}</p>
+	</div>
+
+	{% if performance.photo %}
+	<p><img class="img-article-left" src="{{performance.photo.url}}"></p>
+	{% endif %}
+
+			<li>{{performance.name}}
+	{% autoescape on %}
+	{{performance.about|linebreaks|truncatewords:50}}
+	{% endautoescape %}
+			<div class="clear"></div>
+			<p class="link-read-post"><a href="{{ performance.get_absolute_url }}">Подробнее</a></p>
+			</li>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="about-performance">
+    <h1><span>{{performance.name}}</span></h1>
+    <p>Автор: {{performance.author}}</p>
+    <p>Тип представления: {{performance.category}}</p>
+    <p>Жанр: {{performance.genre}}</p>
+    <p>Дата представления: {{performance.date}}</p>
+    <p>Дата представления: {{performance.time}}</p>
+    <p>Зал: {{performance.hall}}</p>
+    <p>Стоимость билета: {{performance.price}} рублей</p>
+    <div class="about-photo">
+        {% if performance.photo %}
+<p><img class="img-article-left" src="{{performance.photo.url}}"></p>
+{% endif %}
+        <div class="about-text">
+                            <p>{{performance.about|linebreaks}}</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="form-ticket">
+    <form class="hall-form" method="POST" enctype="multipart/form-data">
+
+
+         <input type="hidden" name="perfrormance_id" value="{{performance.id}}">
+        {% csrf_token %}
+        <div class="hall">
+     <p class="screen"><img style="border: 0px" src="/media/screen/screen.svg"  alt=""></p>
+            <p class="buy-button"><input type="submit" value="Купить"></p>
+    <div class="seats">
+        <table>
+        {% for row in performance.row_list %}
+              <tr>
+                {% for seat in performance.seat_list %}
+                   <td>
+                            <input type="checkbox" style="position: absolute; opacity: 0;" id="seat-{{ row }}-{{ seat }}"
+                                   name="seat-{{ row }}-{{ seat }}"
+                              {% for ticket in tickets %}
+                              {% if ticket.row == row and ticket.seat == seat %}
+                              disabled=""
+                              {% endif %}
+                              {% endfor %} />
+                        <span id="seat-wrap" class="badge">
+                              <label id="lab" class="lab" for="seat-{{ row }}-{{ seat }}">{{ seat }}</label>
+                        </span>
+                    </td>
+                {% endfor %}
+              </tr>
+        {% endfor %}
+        </table>
+    </div>
+        </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+             <li class="badge badge-warning">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    </form>
+</div>
+{% endblock %}

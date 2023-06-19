@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Афиша</h2>
+
+<div class="all-content">
+		<table class="table-content" border=0 cellpadding="0" cellspacing="0">
+	<tr>
+	<!-- Sidebar слева -->
+		<td valign="top" class="left-chapters">
+		<ul id="leftchapters">
+			<form action="{% url 'filter' %}" method="get">
+	<p>
+		ЖАНРЫ
+				<hr>
+		{% for genre in view.get_genres %}
+				<p>
+		<input type="checkbox" name="genre" value="{{genre.id}}">{{genre}}</p>
+		{% endfor %}
+	</p>
+				<hr>
+	<p>
+		ДАТА
+				<hr>
+		{% for performance in view.get_date %}
+					<p><input type="checkbox" name="date" value="{{performance}}">{{performance}}</p>
+		{% endfor %}
+	</p>
+				<hr>
+	<button type="submit">Найти</button>
+	</form>
+		</ul>
+	</td>
+		<td valign="top" class="content">
+
+	<ul class="list-articles">
+		{% for performance in performances %}
+		<div class="article-panel">
+			<p class="first">Категория: {{performance.category}}</p>
+			<p class="last">Дата: {{performance.date|date:'d-m-Y'}}</p>
+		</div>
+
+		{% if performance.photo %}
+		<p><img class = "img-article-left" src="{{performance.photo.url}}"></p>
+		{% endif %}
+
+				<li><h3>{{performance.name}}</h3>
+		{% autoescape on %}
+		{{performance.about|linebreaks|truncatewords:50}}
+		{% endautoescape %}
+				<div class="clear"></div>
+				<p class="link-read-post"><a href="{{ performance.get_absolute_url }}">Подробнее</a></p>
+				</li>
+		{% endfor %}
+	</ul>
+
+</div>
+
+{% endblock %}
